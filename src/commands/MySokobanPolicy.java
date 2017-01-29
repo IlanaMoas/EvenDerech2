@@ -29,16 +29,16 @@ public class MySokobanPolicy {
 			next = levelGrid[row+1][col];
 			break;
 		case RIGHT :
-			if((col-2) >= 0){
-				neighbor =levelGrid[row][col-2];
-			}
-			next = levelGrid[row][col-1];
-			break;
-		case LEFT :
-			if((col+2) < levelGrid[0].length){
+			if((col+2) >= 0){
 				neighbor =levelGrid[row][col+2];
 			}
 			next = levelGrid[row][col+1];
+			break;
+		case LEFT :
+			if((col-2) < levelGrid[0].length){
+				neighbor =levelGrid[row][col-2];
+			}
+			next = levelGrid[row][col-1];
 			break;
 			
 		default:

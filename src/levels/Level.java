@@ -204,7 +204,7 @@ public class Level implements Serializable	{
 				}
 			}
 		}
-		else if(!nextNeighbor.getId().startsWith("Wall") && !nextNeighbor.getId().startsWith("Box")){
+		else if(nextNeighbor != null && !nextNeighbor.getId().startsWith("Wall") && !nextNeighbor.getId().startsWith("Box")){
 			for(Box box : boxesInDest){
 				if(box.getRow() == elem.getRow() && box.getCol() == elem.getCol()){
 					if(!(nextNeighbor.getId().startsWith("dest"))){
