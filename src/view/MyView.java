@@ -2,18 +2,24 @@ package view;
 
 import java.util.Observable;
 
+import model.data.Element;
+
+
+
 public class MyView extends Observable implements View{
 
-	@Override
-	public void displayData(int[][] data) {
-		// TODO Auto-generated method stub
+	public MyView(){
+		
+	}
+	
+	public void displayData(Element[][] data) {
 		
 	}
 
-	@Override
 	public int getUserCommand() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	
 
 }

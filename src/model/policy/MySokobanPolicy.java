@@ -1,9 +1,7 @@
-package controller;
+package model.policy;
 
-import model.Box;
-import model.Element;
-import model.Level;
-import model.Level.Direction;
+import model.data.*;
+import model.data.Level.Direction;
 
 public class MySokobanPolicy {
 	public static boolean canPlayerMove(Level level, Direction dir){

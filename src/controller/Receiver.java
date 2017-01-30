@@ -8,8 +8,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-import model.*;
-import model.Level.Direction;
+import model.data.*;
+import model.data.Level.*;
+import model.policy.*;
 
 public class Receiver {
 	public enum CommandType {LOAD, DISPLAY, MOVE, SAVE, EXIT }

@@ -1,8 +1,8 @@
-package model;
+package model.data;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import controller.LevelToString;
+import model.policy.LevelToString;
 
 public class MyTextLevelSaver implements LevelSaver {
 

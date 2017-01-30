@@ -1,7 +1,7 @@
-package controller;
+package model.policy;
 
-import model.Element;
-import model.Level;
+import model.data.Element;
+import model.data.Level;
 
 public class LevelToString {
 
