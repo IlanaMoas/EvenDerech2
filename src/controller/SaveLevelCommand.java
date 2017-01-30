@@ -2,7 +2,8 @@ package controller;
 
 import java.util.LinkedList;
 
-import controller.Receiver.CommandType;
+import controller.Command.CommandType;
+
 
 public class SaveLevelCommand implements Command{
 
@@ -27,6 +28,11 @@ public class SaveLevelCommand implements Command{
 	@Override
 	public void setParams(LinkedList<String> args) {
 		fileName = args.getFirst();
+	}
+	
+	@Override
+	public CommandType getType() {
+		return CommandType.SAVE;
 	}
 
 }

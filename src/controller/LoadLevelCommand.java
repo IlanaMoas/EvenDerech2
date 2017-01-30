@@ -2,7 +2,6 @@ package controller;
 
 import java.util.LinkedList;
 
-import controller.Receiver.CommandType;
 
 public class LoadLevelCommand implements Command{
 
@@ -25,5 +24,10 @@ public class LoadLevelCommand implements Command{
 	@Override
 	public void setParams(LinkedList<String> args) {
 		fileName = args.getFirst();
+	}
+	
+	@Override
+	public CommandType getType() {
+		return CommandType.LOAD;
 	}
 }

@@ -2,7 +2,6 @@ package controller;
 
 import java.util.LinkedList;
 
-import controller.Receiver.CommandType;
 
 
 public class DisplayLevelCommand implements Command{
@@ -26,6 +25,11 @@ public class DisplayLevelCommand implements Command{
 
 	@Override
 	public void setParams(LinkedList<String> args) {}
+
+	@Override
+	public CommandType getType() {
+		return CommandType.DISPLAY;
+	}
 
 
 

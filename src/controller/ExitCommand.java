@@ -2,7 +2,7 @@ package controller;
 
 import java.util.LinkedList;
 
-import controller.Receiver.CommandType;
+//import controller.Receiver.CommandType;
 
 public class ExitCommand implements Command{
 
@@ -23,5 +23,10 @@ private CommandState state = CommandState.WAITING;
 
 	@Override
 	public void setParams(LinkedList<String> args) {}
+
+	@Override
+	public CommandType getType() {
+		return CommandType.EXIT;
+	}
 
 }

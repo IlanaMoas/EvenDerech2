@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Observable;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import controller.Command.CommandType;
 import model.Model;
 import view.View;
 
@@ -72,12 +73,19 @@ public class MyController implements Controller {
 						e.printStackTrace();
 					}
 					if(currCommand != null){
+						if(currCommand.getType() == CommandType.EXIT){
+							callStop();
+						}
 						currCommand.execute(rec);
 					}
 				}
 			}
 		};
 		manageCommandQueue.start();
+	}
+	
+	private void callStop(){
+		stop();
 	}
 
 	public void stop(){

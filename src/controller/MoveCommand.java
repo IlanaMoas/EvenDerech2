@@ -2,7 +2,8 @@ package controller;
 
 import java.util.LinkedList;
 
-import controller.Receiver.CommandType;
+import controller.Command.CommandType;
+
 
 public class MoveCommand implements Command{
 
@@ -25,6 +26,11 @@ public class MoveCommand implements Command{
 	@Override
 	public void setParams(LinkedList<String> args) {
 		dirStr = args.getFirst();
+	}
+	
+	@Override
+	public CommandType getType() {
+		return CommandType.MOVE;
 	}
 
 }

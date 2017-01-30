@@ -36,12 +36,15 @@ public class MyModel extends Observable implements Model {
 	@Override
 	public void moveRight() {
 		level.move(level.getMainPlayer(), Direction.RIGHT);
+		
 		// TODO Auto-generated method stub
 		
 		
 		notifyObservers();
 		
 	}
+	
+	
 
 	@Override
 	public void moveLeft() {

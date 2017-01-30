@@ -11,5 +11,6 @@ public class Run {
 		MyController controller = new MyController(ui, model);
 		ui.addObserver(controller);
 		model.addObserver(controller);
+		controller.start();
 	}
 }

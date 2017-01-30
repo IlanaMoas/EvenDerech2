@@ -8,12 +8,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
+import controller.Command.CommandType;
 import model.data.*;
 import model.data.Level.*;
 import model.policy.*;
 
 public class Receiver {
-	public enum CommandType {LOAD, DISPLAY, MOVE, SAVE, EXIT }
+	
 	//	private LevelLoader ll;
 	private Level level;
 	private HashMap<String, Constructor<LevelLoader>> loaderConstructorMap;
@@ -42,8 +43,11 @@ public class Receiver {
 			print();
 			break;
 		case EXIT:
+		{
+			
 			System.exit(0);
-			break;
+		}
+		break;
 		case MOVE:
 			move(arg);
 			break;
