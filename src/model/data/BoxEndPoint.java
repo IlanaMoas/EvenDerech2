@@ -1,48 +1,51 @@
 package model.data;
 
-import java.io.Serializable;
 
-public class BoxEndPoint implements Element, Serializable {
+public class BoxEndPoint implements Element{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int boxDestCol;
-	private int boxDestRow;
-	private String boxDestId;
+	private int col;
+	private int row;
+	private String id;
 	private final char symbolId = 'o';
-//	private boolean isOccupied;
+	//	private boolean isOccupied;
+
+	public BoxEndPoint(){}
 	
 	public BoxEndPoint(int row, int col, int idNum){
-		boxDestCol = col;
-		boxDestRow = row;
-		boxDestId = "dest"+idNum;
-//		isOccupied = false;
+		this.col = col;
+		this.row = row;
+		this.id = "dest"+idNum;
+		//		isOccupied = false;
 	}
 	
+	public BoxEndPoint(BoxEndPoint boxEndPoint){
+		this.col = boxEndPoint.getCol();
+		this.row = boxEndPoint.getRow();
+		this.id = boxEndPoint.getId();
+	}
+
 	public int getCol() {
-		return boxDestCol;
+		return col;
 	}
 
 	public int getRow() {
-		return boxDestRow;
+		return row;
 	}
 
 	public String getId() {
-		return boxDestId;
+		return id;
 	}
-	
+
 	public char getSymbolId(){
 		return symbolId;
 	}
-	
-//	public boolean getIsOccupied(){
-//		return isOccupied;
-//	}
-//	
-//	public void setIsOccupied(boolean occupied){
-//		isOccupied = occupied;
-//	}
 
+	@Override
+	public String toString(){
+		return String.format("[BoxEndPoint: id='%s', col=%d, row=%d, symbol='%s']", id, col, row, symbolId);
+	}
 }

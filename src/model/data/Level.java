@@ -1,7 +1,11 @@
 package model.data;
 
+import java.beans.XMLDecoder;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import model.policy.LevelToString;
+
 
 
 public class Level implements Serializable	{
@@ -13,34 +17,31 @@ public class Level implements Serializable	{
 
 	public enum Direction {UP, DOWN, LEFT, RIGHT};
 
-	private Element virtualLevel[][];
-	private ArrayList<Box> boxes;
-	private ArrayList<BoxEndPoint> dests;
-	private ArrayList<Player> players;
-	private ArrayList<Box> boxesInDest;
+//	private Element virtualLevel[][];
+	private ArrayList<ArrayList<Element>> virtualLevel = new ArrayList<ArrayList<Element>>();
+	private ArrayList<Box> boxes = new ArrayList<Box>();
+	private ArrayList<BoxEndPoint> dests = new ArrayList<BoxEndPoint>();
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Box> boxesInDest = new ArrayList<Box>();
 	private Player mainPlayer;
 	private int score = 0;
 	private int numOfRows = 0;
 	private int numOfCols = 0;
 
 
-	public Level(){
-		boxes = new ArrayList<Box>();
-		dests = new ArrayList<BoxEndPoint>();
-		players = new ArrayList<Player>();
-		boxesInDest = new ArrayList<Box>();
-	}
+	public Level(){	}
 
 	public Level(Level level){
-		numOfRows = level.getLevelGrid().length;
-		numOfCols = level.getLevelGrid()[0].length;
-		virtualLevel = new Element[numOfRows][numOfCols];
-		for(int i = 0 ; i < numOfRows ; i++){
-			for(int j = 0 ; j < numOfCols ; j++){
-				//				System.out.println("i,j: " + i + " ," + j);
-				this.virtualLevel[i][j] = level.getLevelGrid()[i][j];
-			}
-		}
+		numOfRows = level.getVirtualLevel().size();
+		numOfCols = level.getVirtualLevel().get(0).size();
+//		virtualLevel = new Element[numOfRows][numOfCols];
+//		for(int i = 0 ; i < numOfRows ; i++){
+//			for(int j = 0 ; j < numOfCols ; j++){
+//				//				System.out.println("i,j: " + i + " ," + j);
+//				this.virtualLevel[i][j] = level.getVirtualLevel()[i][j];
+//			}
+//		}
+		setVirtualLevel(level.getVirtualLevel());
 		setBoxes(level.getBoxes());
 		setDests(level.getDests());
 		setBoxesInDest(level.boxesInDest);
@@ -48,44 +49,67 @@ public class Level implements Serializable	{
 
 
 	}
+//	
+//	public Level(XMLDecoder decoder){
+//		
+//	}
 
-	public void setLevelGrid(Element levelGrid[][]){
-		numOfCols = levelGrid[0].length;
-		numOfRows = levelGrid.length;
+	public void setVirtualLevel(ArrayList<ArrayList<Element>> levelGrid){
+		numOfCols = levelGrid.get(0).size();
+		numOfRows = levelGrid.size();
 
-
-		virtualLevel = new Element[numOfRows][numOfCols];
+		
+//		virtualLevel = new Element[numOfRows][numOfCols];
+		ArrayList<Element> row ;
 		for(int i = 0 ; i < numOfRows ; i++){
+			row = new ArrayList<Element>();
 			for(int j = 0 ; j < numOfCols ; j++){
-				virtualLevel[i][j] = levelGrid[i][j];
-				if(virtualLevel[i][j] != null){
-					if(virtualLevel[i][j].getId().startsWith("box")){
-						boxes.add((Box)virtualLevel[i][j]);
+				Element currElement = (Element)levelGrid.get(i).get(j);
+				row.add(currElement);
+//				virtualLevel[i][j] = (Element)levelGrid[i][j];
+				
+				if(currElement != null){
+					if(currElement.getId().startsWith("box")){
+						boxes.add((Box)currElement);
 					}
-					if(virtualLevel[i][j].getId().startsWith("dest")){
-						dests.add((BoxEndPoint)virtualLevel[i][j]);
+					if(currElement.getId().startsWith("dest")){
+						dests.add((BoxEndPoint)currElement);
 					}
-					if(virtualLevel[i][j].getId().startsWith("player")){
-						players.add((Player)virtualLevel[i][j]);
+					if(currElement.getId().startsWith("player")){
+						players.add((Player)currElement);
 						if(players.size() == 1){
 							mainPlayer = players.get(0);
 						}
 					}
 				}
+				
+//				else{
+//					
+//				}
 			}
+			virtualLevel.add(row);
+//			row.clear();
 		}
 	}
 
-	public Element[][] getLevelGrid(){
+	public ArrayList<ArrayList<Element>> getVirtualLevel(){
 		return virtualLevel;
 	}
 
 	public int getNumOfRows(){
 		return numOfRows;
 	}
+	
+	public void setNumOfRows(int numOfRows){
+		this.numOfRows = numOfRows;
+	}
 
 	public int getNumOfCols(){
 		return numOfCols;
+	}
+	
+	public void setNumOfCols(int numOfCols){
+		this.numOfCols = numOfCols;
 	}
 
 	public ArrayList<Box> getBoxes(){
@@ -161,32 +185,32 @@ public class Level implements Serializable	{
 		switch(dir){
 		case UP:
 			elem.moveUp();
-			virtualLevel[row-1][col] = elem;
-			nextNeighbor = virtualLevel[row-2][col];
+			virtualLevel.get(row-1).set(col, elem);
+			nextNeighbor = virtualLevel.get(row-2).get(col);
 			break;
 		case DOWN:
 			elem.moveDown();
-			virtualLevel[row+1][col] = elem;
-			nextNeighbor = virtualLevel[row+2][col];
+			virtualLevel.get(row+1).set(col, elem);
+			nextNeighbor = virtualLevel.get(row+2).get(col);
 			break;
 		case LEFT:
 			elem.moveLeft();
-			virtualLevel[row][col-1] = elem;
-			nextNeighbor = virtualLevel[row][col-2];
+			virtualLevel.get(row).set(col-1, elem);
+			nextNeighbor = virtualLevel.get(row).get(col-2);
 			break;
 		case RIGHT:
 			elem.moveRight();
-			virtualLevel[row][col+1] = elem;
-			nextNeighbor = virtualLevel[row][col+2];
+			virtualLevel.get(row).set(col+1, elem);
+			nextNeighbor = virtualLevel.get(row).get(col+2);
 			break;
 		}
 		if(elem.getId().startsWith("box")){
 			updateBoxesInDest((Box)elem, nextNeighbor);
 		}
-		virtualLevel[row][col] = null;
+		virtualLevel.get(row).set(col, null);
 		for(BoxEndPoint dest : dests){
 			if(dest.getRow() == row && dest.getCol() == col){
-				virtualLevel[row][col] = dest;
+				virtualLevel.get(row).set(col, dest);
 			}
 		}
 
@@ -217,6 +241,11 @@ public class Level implements Serializable	{
 			}
 		}
 
+	}
+	
+	@Override
+	public String toString(){
+		return String.format("[Level: virtualLevel='%s' ,numOfRows=%d, numOfCols=%d, score=%d]", LevelToString.getToString(this), numOfRows, numOfCols, score);
 	}
 }
 

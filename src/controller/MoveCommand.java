@@ -2,7 +2,6 @@ package controller;
 
 import java.util.LinkedList;
 
-import controller.Command.CommandType;
 
 
 public class MoveCommand implements Command{

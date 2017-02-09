@@ -2,7 +2,7 @@ package controller;
 
 import java.util.LinkedList;
 
-import controller.Command.CommandType;
+//import controller.Command.CommandType;
 
 
 public class SaveLevelCommand implements Command{

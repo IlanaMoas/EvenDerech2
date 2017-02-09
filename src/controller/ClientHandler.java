@@ -1,4 +1,4 @@
-package controller.server;
+package controller;
 
 import java.io.InputStream;
 import java.io.OutputStream;

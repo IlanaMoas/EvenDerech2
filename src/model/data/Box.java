@@ -1,45 +1,54 @@
 package model.data;
 
-import java.io.Serializable;
 
-public class Box implements MovingElement, Serializable{
+public class Box implements MovingElement{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int boxCol;
-	private int boxRow;
-	private String boxId;
+	private int col;
+	private int row;
+	private String id;
 	private final char symbolId = '@';
-	boolean isAtDest;
+	private boolean isAtDest;
+	
+	public Box(){}
 	
 	public Box(int row, int col, int idNum){
-		boxCol = col;
-		boxRow = row;
-		boxId = "box"+idNum;
-		isAtDest = false;
+		this.col = col;
+		this.row = row;
+		this.id = "box"+idNum;
+		this.isAtDest = false;
+	}
+	
+	public Box(Box box){
+		this.col = box.getCol();
+		this.row = box.getRow();
+		this.id = box.getId();
+		this.isAtDest = box.getIsAtDest();
 	}
 	
 	public int getCol() {
-		return boxCol;
+		return col;
 	}
+	
 	public int getRow() {
-		return boxRow;
+		return row;
 	}
 	public void moveLeft() {
-		boxCol--;
+		col--;
 	}
 	public void moveRight() {
-		boxCol++;
+		col++;
 	}
 	public void moveUp() {
-		boxRow--;
+		row--;
 	}
 	public void moveDown() {
-		boxRow++;
+		row++;
 	}
 	public String getId() {
-		return boxId;
+		return id;
 	}
 	
 	public void setIsAtDest(boolean isAtDest){
@@ -52,5 +61,10 @@ public class Box implements MovingElement, Serializable{
 	
 	public char getSymbolId(){
 		return symbolId;
+	}
+	
+	@Override
+	public String toString(){
+		return String.format("[Box: id='%s', col=%d, row=%d, symbol='%s', isAtDest=%b]", id, col, row, symbolId, isAtDest);
 	}
 }

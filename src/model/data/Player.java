@@ -1,53 +1,65 @@
 package model.data;
 
-import java.io.Serializable;
 
-public class Player implements MovingElement, Serializable{
+public class Player implements MovingElement{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int playerCol;
-	private int playerRow;
-	private String playerId;
+	private int col;
+	private int row;
+	private String id;
 	private final char symbolId = 'A';
 
+	public Player(){}
+	
 	public Player(int row, int col, int idNum){
-		playerCol = col;
-		playerRow = row;
-		playerId = "player"+idNum;
+		this.col = col;
+		this.row = row;
+		this.id = "player"+idNum;
+	}
+	
+	public Player(Player player){
+		this.col = player.getCol();
+		this.row = player.getRow();
+		this.id = player.getId();
 	}
 
 	public int getCol() {
-		return playerCol;
+		return col;
 	}
 
 	public int getRow() {
-		return playerRow;
+		return row;
 	}
 
 	public void moveLeft() {
-		playerCol--;	
+		col--;	
 	}
 
 	public void moveRight() {
-		playerCol++;	
+		col++;	
 	}
 
 	public void moveUp() {
-		playerRow--;	
+		row--;	
 	}
 
 	public void moveDown() {
-		playerRow++;	
+		row++;	
 	}
 
 	public String getId() {
-		return playerId;
+		return id;
 	}
 	
 	public char getSymbolId(){
 		return symbolId;
+	}
+	
+	@Override
+	public String toString(){
+		return String.format("[Player: id='%s', col=%d, row=%d, symbol='%s']", id, col, row, symbolId);
 	}
 }

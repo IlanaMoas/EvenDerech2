@@ -3,6 +3,7 @@ package model.data;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class MyTextLevelLoader implements LevelLoader {
 
@@ -32,14 +33,14 @@ public class MyTextLevelLoader implements LevelLoader {
 		try {
 			((FileInputStream)is).getChannel().position(0);
 		} catch (IOException resetException) {
-			System.err.println("Error in steam reset.");
+			System.err.println("Error in stream reset.");
 			resetException.printStackTrace();
 		}
 		try {
-			Element[][] board = createGrid(is);
+			ArrayList<ArrayList<Element>> board = createGrid(is);
 			Level level = new Level();
 			//			level.setLevelName();
-			level.setLevelGrid(board);
+			level.setVirtualLevel(board);
 
 			return level;
 		}catch (IOException readException2) {
@@ -86,36 +87,45 @@ public class MyTextLevelLoader implements LevelLoader {
 		rowCounter++;
 	}
 
-	public Element[][] createGrid(InputStream is) throws IOException{
+	public ArrayList<ArrayList<Element>> createGrid(InputStream is) throws IOException{
 		int next;
-		Element[][] board = new Element[rowCounter][colCounter];
+		ArrayList<ArrayList<Element>> board = new ArrayList<ArrayList<Element>>();//Element[rowCounter][colCounter];
+		ArrayList<Element> row;
 		for (int i = 0; i < rowCounter; i++) {
+			row = new ArrayList<Element>();
 			for (int j = 0; j < colCounter+1; j++) {
 				next = is.read();
 				switch(next){
 				case WALL:
-					board[i][j] = new Wall(i, j, wallCounter);
+//					board[i][j] = new Wall(i, j, wallCounter);
+					row.add(new Wall(i, j, wallCounter));
 					wallCounter++;
 					break;
 				case BOX:
-					board[i][j] = new Box(i, j, boxCounter);
+//					board[i][j] = new Box(i, j, boxCounter);
+					row.add(new Box(i, j, boxCounter));
 					boxCounter++;
 					break;
 				case PLAYER:
-					board[i][j] = new Player(i, j, playerCounter);
+//					board[i][j] = new Player(i, j, playerCounter);
+					row.add(new Player(i, j, playerCounter));
 					playerCounter++;
 					break;
 				case BOX_DEST:
-					board[i][j] = new BoxEndPoint(i, j, destCounter);
+//					board[i][j] = new BoxEndPoint(i, j, destCounter);
+					row.add(new BoxEndPoint(i, j, destCounter));
 					break;
 				case NONE:
-					board[i][j] = null;
+//					board[i][j] = null;
+					row.add(null);
 					break;
 				case NEW_LINE:
 					break;
 				}
 
 			}
+			board.add(row);
+//			row.clear();
 		}
 		return board;
 	}

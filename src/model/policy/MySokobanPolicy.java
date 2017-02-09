@@ -1,13 +1,16 @@
 package model.policy;
 
+import java.util.ArrayList;
+
 import model.data.*;
 import model.data.Level.Direction;
+
 
 public class MySokobanPolicy {
 	public static boolean canPlayerMove(Level level, Direction dir){
 		int row = level.getMainPlayer().getRow();
 		int col = level.getMainPlayer().getCol();
-		Element levelGrid[][] = level.getLevelGrid();
+		ArrayList<ArrayList<Element>> levelGrid = level.getVirtualLevel();
 		if(dir != Direction.UP && dir != Direction.DOWN && 
 				dir != Direction.LEFT && dir != Direction.RIGHT){
 			return false;
@@ -16,27 +19,27 @@ public class MySokobanPolicy {
 		switch(dir){
 		case UP : 
 			if((row-2) >= 0){
-				neighbor =levelGrid[row-2][col];
+				neighbor = levelGrid.get(row-2).get(col);
 			}
-			next = levelGrid[row-1][col];
+			next = levelGrid.get(row-1).get(col);
 			break;
 		case DOWN :
-			if((row+2) < levelGrid.length){
-				neighbor =levelGrid[row+2][col];
+			if((row+2) < levelGrid.size()){
+				neighbor = levelGrid.get(row+2).get(col);
 			}
-			next = levelGrid[row+1][col];
+			next = levelGrid.get(row+1).get(col);
 			break;
 		case RIGHT :
-			if((col+2) >= 0){
-				neighbor =levelGrid[row][col+2];
+			if((col+2) < levelGrid.get(0).size()){
+				neighbor = levelGrid.get(row).get(col+2);
 			}
-			next = levelGrid[row][col+1];
+			next = levelGrid.get(row).get(col+1);
 			break;
 		case LEFT :
-			if((col-2) < levelGrid[0].length){
-				neighbor =levelGrid[row][col-2];
+			if((col-2) >= 0){
+				neighbor =levelGrid.get(row).get(col-2);
 			}
-			next = levelGrid[row][col-1];
+			next = levelGrid.get(row).get(col-1);
 			break;
 			
 		default:
@@ -56,27 +59,27 @@ public class MySokobanPolicy {
 	}
 	
 	public static boolean isPlayerMovingBox(Level level, Direction dir){
-		Element grid[][] = level.getLevelGrid();
+		ArrayList<ArrayList<Element>> grid = level.getVirtualLevel();
 		int row = level.getMainPlayer().getRow();
 		int col = level.getMainPlayer().getCol();
 		switch (dir) {
 		case UP:
-			if(grid[row-1][col] != null && grid[row-1][col].getId().startsWith("box")){
+			if(grid.get(row-1).get(col) != null && grid.get(row-1).get(col).getId().startsWith("box")){
 				return true;
 			}
 			break;
 		case DOWN:
-			if(grid[row+1][col] != null && grid[row+1][col].getId().startsWith("box")){
+			if(grid.get(row+1).get(col) != null && grid.get(row+1).get(col).getId().startsWith("box")){
 				return true;
 			}
 			break;
 		case LEFT:
-			if(grid[row][col-1] != null && grid[row][col-1].getId().startsWith("box")){
+			if(grid.get(row).get(col-1) != null && grid.get(row).get(col-1).getId().startsWith("box")){
 				return true;
 			}
 			break;
 		case RIGHT:
-			if(grid[row][col+1] != null && grid[row][col+1].getId().startsWith("box")){
+			if(grid.get(row).get(col+1) != null && grid.get(row).get(col+1).getId().startsWith("box")){
 				return true;
 			}
 			break;
@@ -87,7 +90,7 @@ public class MySokobanPolicy {
 	public static void move(Level level, Direction dir, int potentialBoxRow, int potentialBoxCol){
 		if(MySokobanPolicy.canPlayerMove(level, dir)){
 			if(MySokobanPolicy.isPlayerMovingBox(level, dir)){
-				Box box = (Box)level.getLevelGrid()[potentialBoxRow][potentialBoxCol];
+				Box box = (Box)level.getVirtualLevel().get(potentialBoxRow).get(potentialBoxCol);
 				level.move(box, dir);
 			}
 			level.move(level.getMainPlayer(), dir);

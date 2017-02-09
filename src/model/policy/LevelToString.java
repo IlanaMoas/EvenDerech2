@@ -1,7 +1,9 @@
 package model.policy;
 
-import model.data.Element;
-import model.data.Level;
+import java.util.ArrayList;
+import model.data.*;
+//import levels.Element;
+//import levels.Level;
 
 public class LevelToString {
 
@@ -9,17 +11,17 @@ public class LevelToString {
 
 		String levelStr = "";
 		//		Element grid[][] = new Element[level.getNumOfRows()][level.getNumOfCols()];
-		Element grid[][] = level.getLevelGrid();
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[0].length; j++) {
-				if(grid[i][j] != null){
-					levelStr += grid[i][j].getSymbolId();
+		ArrayList<ArrayList<Element>> grid = level.getVirtualLevel();
+		for (int i = 0; i < grid.size(); i++) {
+			for (int j = 0; j < grid.get(0).size(); j++) {
+				if(grid.get(i).get(j) != null){
+					levelStr += grid.get(i).get(j).getSymbolId();
 				}
 				else{
 					levelStr += " ";
 				}
 			}
-			if(i != grid.length -1){
+			if(i != grid.size() -1){
 				levelStr += "\n";
 			}
 		}

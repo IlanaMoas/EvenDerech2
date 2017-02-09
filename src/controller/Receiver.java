@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+
 
 import controller.Command.CommandType;
 import model.data.*;
@@ -28,9 +30,11 @@ public class Receiver {
 
 		loaderConstructorMap.put("txt", (Constructor<LevelLoader>)MyTextLevelLoader.class.getConstructors()[0]);
 		loaderConstructorMap.put("obj", (Constructor<LevelLoader>)MyObjectLevelLoader.class.getConstructors()[0]);
+		loaderConstructorMap.put("xml", (Constructor<LevelLoader>)MyXMLLevelLoader.class.getConstructors()[0]);
 
 		saverConstructorMap.put("txt", (Constructor<LevelSaver>)MyTextLevelSaver.class.getConstructors()[0]);
 		saverConstructorMap.put("obj", (Constructor<LevelSaver>)MyObjectLevelSaver.class.getConstructors()[0]);
+		saverConstructorMap.put("xml", (Constructor<LevelSaver>)MyXMLLevelSaver.class.getConstructors()[0]);
 
 	}
 
@@ -128,26 +132,26 @@ public class Receiver {
 
 	private void move(String arg){
 		Direction dir = null;
-		Element grid[][] = level.getLevelGrid();
+		ArrayList<ArrayList<Element>> grid = level.getVirtualLevel();
 		Player player = level.getMainPlayer();
 		Element potentialBox = null;
 
 		switch(arg.toUpperCase()){
 		case("UP"):
 			dir = Direction.UP;
-		potentialBox = grid[player.getRow()-1][player.getCol()];
+		potentialBox = grid.get(player.getRow()-1).get(player.getCol());
 		break;
 		case("DOWN"):
 			dir = Direction.DOWN;
-		potentialBox = grid[player.getRow()+1][player.getCol()];
+		potentialBox = grid.get(player.getRow()+1).get(player.getCol());
 		break;
 		case("LEFT"):
 			dir = Direction.LEFT;
-		potentialBox = grid[player.getRow()][player.getCol()-1];
+		potentialBox = grid.get(player.getRow()).get(player.getCol()-1);
 		break;
 		case("RIGHT"):
 			dir = Direction.RIGHT;
-		potentialBox = grid[player.getRow()][player.getCol()+1];
+		potentialBox = grid.get(player.getRow()).get(player.getCol()+1);
 		break;
 		}
 		if(potentialBox != null){

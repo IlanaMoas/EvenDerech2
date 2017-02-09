@@ -1,6 +1,7 @@
 package model;
 
 import model.data.*;
+import java.util.ArrayList;
 
 
 public interface Model {
@@ -8,5 +9,6 @@ public interface Model {
 	public void moveDown();
 	public void moveRight();
 	public void moveLeft();
-	public Element[][] getData();
+	public int getScore();
+	public ArrayList<ArrayList<Element>> getData();
 }
