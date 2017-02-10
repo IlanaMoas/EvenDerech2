@@ -7,17 +7,17 @@ import java.util.LinkedList;
 
 
 import model.MyModel;
-import view.MyView;
+import view.*;
 
 public class MyClientHandler implements ClientHandler{
 
 	private MyController controller = null;
-	private MyView ui;
-	private MyModel model;
-//	private InputStream inFromClient;
-//	private OutputStream outFromClient;
+//	private MainWindowController ui;
+//	private MyModel model;
+	//	private InputStream inFromClient;
+	//	private OutputStream outFromClient;
 
-	private final String DISPLAY_STR = "DISPLAY";
+//	private final String DISPLAY_STR = "DISPLAY";
 
 	public MyClientHandler(MyController controller){
 		this.controller = controller;
@@ -31,7 +31,7 @@ public class MyClientHandler implements ClientHandler{
 		String welcome = "Welcome to Sokoban Online\n";
 		String enterCommand = "please enter a command\n";
 		int nextChar = 0;
-		String commandStr = "";
+		String commandStrArr = "";
 		try {
 			outToClient.write(welcome.getBytes());
 
@@ -48,28 +48,35 @@ public class MyClientHandler implements ClientHandler{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			nextChar = 0;
+			commandStrArr = "";
 			try {
 				while((nextChar = inFromClient.read()) != 10){
-					commandStr += (char)nextChar;
+					commandStrArr += (char)nextChar;
 				}
-				commandStr = commandStr.toUpperCase();
+				commandStrArr = commandStrArr.toUpperCase();
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			String[] commandArr = commandStr.split("\\s");
-			LinkedList<String> commandAndArgsList = new LinkedList<String>();
-			for(int i = 0 ; i < commandArr.length ; i++){
-
-				commandAndArgsList.add(commandArr[i]);
-
-			}
-			if(commandArr[0] != DISPLAY_STR){
-				controller.update(model, commandAndArgsList);
-			}
-			controller.update(ui, new LinkedList<String>().add(DISPLAY_STR));
+			String[] commandArr = commandStrArr.split("\\s");
+//			LinkedList<String> argsList = new LinkedList<String>();
+			String commandStr = commandArr[0];
+//			for(int i = 1 ; i < commandArr.length ; i++){
+//
+//				argsList.add(commandArr[i]);
+//
+//			}
+//			if(commandArr[0] == "DISPLAY"){
+//				controller.update(null, commandAndArgsList);
+//			}
+//			LinkedList<String> tmp = new LinkedList<String>();
+//			tmp.add(DISPLAY_STR);
+//			controller.update(ui, tmp);
+			String arg = commandArr.length > 1 ? commandArr[1] : null;
+			controller.getReciever().action(Command.getCommandTypeByStr(commandStr), arg);
 		}
 
 	}
@@ -77,6 +84,6 @@ public class MyClientHandler implements ClientHandler{
 
 
 
-	
-	
+
+
 }

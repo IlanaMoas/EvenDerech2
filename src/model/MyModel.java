@@ -49,7 +49,9 @@ public class MyModel extends Observable implements Model {
 		
 	}
 	
-	
+	public void display(){
+		
+	}
 
 	@Override
 	public void moveLeft() {
@@ -60,6 +62,8 @@ public class MyModel extends Observable implements Model {
 		notifyObservers(getData());
 		
 	}
+	
+	
 	
 //	public void load(InputStream in){
 //		

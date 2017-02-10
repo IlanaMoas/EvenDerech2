@@ -6,13 +6,13 @@ import controller.MyController;
 import controller.server.MyServer;
 import model.MyModel;
 import view.MainWindow;
-import view.MyView;
+import view.*;
 
 public class Run {
-	private static final String ip = "193.106.52.98";
+	private static final String ip = "127.0.0.1";//"193.106.52.98";
 	
 	public static void main(String args[]){
-		MyView ui = new MyView();
+		MainWindowController ui = new MainWindowController();
 		MyModel model = new MyModel();
 		MyController controller = new MyController(ui, model);
 		ui.addObserver(controller);

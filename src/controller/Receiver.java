@@ -65,7 +65,7 @@ public class Receiver {
 	}
 
 	private void saveLevelAsFile(String fileName) {
-		Constructor<LevelSaver> levelSaverToCall = saverConstructorMap.get(fileName.substring(fileName.length()-3));
+		Constructor<LevelSaver> levelSaverToCall = saverConstructorMap.get(fileName.substring(fileName.length()-3).toLowerCase());
 		LevelSaver saver;
 		try {
 			saver = levelSaverToCall.newInstance();
@@ -83,6 +83,7 @@ public class Receiver {
 	}
 
 	private void LoadLevelByFileName(String fileName) {
+		
 		if(!(new File(fileName).isFile())){
 			System.err.println("Error loading file. A file with the name" + fileName + " doas not exist");
 			return;
@@ -93,7 +94,7 @@ public class Receiver {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		Constructor<LevelLoader> levelLoaderToCall = loaderConstructorMap.get(fileName.substring(fileName.length()-3));
+		Constructor<LevelLoader> levelLoaderToCall = loaderConstructorMap.get(fileName.substring(fileName.length()-3).toLowerCase());
 		LevelLoader loader;
 		try {
 			if(is != null){

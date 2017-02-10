@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import controller.Command.CommandType;
 import controller.server.MyServer;
 import model.Model;
-import view.View;
+import view.*;
 
 public class MyController implements Controller {
 	//	private final int MOVE_UP = 1;
@@ -60,8 +60,15 @@ public class MyController implements Controller {
 		String commandKey = commandArgs.removeFirst();
 		Command currCommand = commandsMap.get(commandKey);
 
-		if(o == model){
-			ui.displayData(args);
+		if(o == null){
+			if(commandKey.equals("DISPLAY")){
+				insertCommand(currCommand);
+			}
+		}
+		
+		else if(o == model){
+			
+			ui.displayData(model.getData());
 		}
 		else if(o == ui){
 			//		if(o == model){
@@ -76,7 +83,8 @@ public class MyController implements Controller {
 			//		else if(o == ui){
 			//			
 		}
-
+		commandKey = "";
+		currCommand = null;
 
 	}
 
@@ -159,6 +167,10 @@ public class MyController implements Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Receiver getReciever(){
+		return rec;
 	}
 
 }

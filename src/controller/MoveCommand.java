@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 
 
-public class MoveCommand implements Command{
+public class MoveCommand extends Command{
 
 	private CommandState state = CommandState.WAITING;
 	private String dirStr;
@@ -31,5 +31,5 @@ public class MoveCommand implements Command{
 	public CommandType getType() {
 		return CommandType.MOVE;
 	}
-
+	
 }

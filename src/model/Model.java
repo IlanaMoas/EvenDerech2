@@ -10,5 +10,6 @@ public interface Model {
 	public void moveRight();
 	public void moveLeft();
 	public int getScore();
+	public void display();
 	public ArrayList<ArrayList<Element>> getData();
 }

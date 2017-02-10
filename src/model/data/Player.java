@@ -1,5 +1,6 @@
 package model.data;
 
+import javafx.scene.image.Image;
 
 public class Player implements MovingElement{
 
@@ -11,6 +12,7 @@ public class Player implements MovingElement{
 	private int row;
 	private String id;
 	private final char symbolId = 'A';
+	private Image playerImg = new Image("/resources/Player.jpeg");
 
 	public Player(){}
 	
@@ -61,5 +63,10 @@ public class Player implements MovingElement{
 	@Override
 	public String toString(){
 		return String.format("[Player: id='%s', col=%d, row=%d, symbol='%s']", id, col, row, symbolId);
+	}
+
+	@Override
+	public Image getImage() {
+		return playerImg;
 	}
 }

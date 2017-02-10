@@ -1,5 +1,6 @@
 package model.data;
 
+import javafx.scene.image.Image;
 
 public class Box implements MovingElement{
 	/**
@@ -11,6 +12,7 @@ public class Box implements MovingElement{
 	private String id;
 	private final char symbolId = '@';
 	private boolean isAtDest;
+	private Image boxImg = new Image("/resources/Box.png");
 	
 	public Box(){}
 	
@@ -66,5 +68,10 @@ public class Box implements MovingElement{
 	@Override
 	public String toString(){
 		return String.format("[Box: id='%s', col=%d, row=%d, symbol='%s', isAtDest=%b]", id, col, row, symbolId, isAtDest);
+	}
+
+	@Override
+	public Image getImage() {
+		return boxImg;
 	}
 }

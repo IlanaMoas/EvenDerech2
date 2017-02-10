@@ -12,9 +12,10 @@ public class MyServer{
 	private int port;
 	private ClientHandler ch;
 	private volatile boolean stop;
-//	private Thread clientThread;
+	//	private Thread clientThread;
 	private Socket currClient;
-//	private int numOfClients = 0;
+	private ServerSocket myServer;
+	//	private int numOfClients = 0;
 
 	public MyServer(int port, ClientHandler ch){
 		this.port = port;
@@ -23,65 +24,92 @@ public class MyServer{
 	}
 
 	public void runServer() throws SocketTimeoutException, IOException{
-		ServerSocket server = new ServerSocket(port);
-		server.setSoTimeout(1000);
-		
-		do{
-//			try{
 
-				currClient = server.accept();
-//				currSocket = currClient;
-				
-				class SocketThread extends Thread{
+		ServerSocket myServer = new ServerSocket(port);
+//		myServer.setSoTimeout(1000);
 
-					private Socket currClient;
-					
-					public void setCurrSocket(Socket currClient){
-						this.currClient = currClient;
-					}
-					
-					@Override
-					public void run(){
-						try{
-							ch.handleClient(currClient.getInputStream(), currClient.getOutputStream());
-						}catch(Exception e){
-							System.err.println("Error! " + e.getMessage());;
-						}
-
-
-					}
-				}
-				SocketThread clientThread = new SocketThread();
-				clientThread.setCurrSocket(currClient);
-				clientThread.start();
-//				new Thread(new Runnable() {
-//					
-//					
-//					
-//					@Override
-//					public void run(){
-//						try{
-//							ch.handleClient(currClient.getInputStream(), currClient.getOutputStream());
-//						}catch(Exception e){
-//							System.err.println("Error! " + e.getMessage());;
-//						}
-//
-//
-//					}
-//				}).start();
-//				clientThread.start();
-
-//			}catch(SocketTimeoutException e){
-//				System.err.println("Error! " + e.getMessage());
+		class ServerThread extends Thread{
+			private ServerSocket server;
+			private int numOfClients = 0;
+			public void setSerever(ServerSocket server){
+				this.server = server;
+			}
+			
+//			public void setNumOfClients(int n){
+//				numOfClients = n;
 //			}
 
-		}while(!stop);
-		closeClient();
-		server.close();
+			@Override
+			public void run(){
+				do{
+					if(numOfClients == 0){
+						try{
+//							this.server.setSoTimeout(10000);
+							currClient = this.server.accept();
+							this.numOfClients = 1;
+							//				currSocket = currClient;
+
+							//					class SocketThread extends Thread{
+							//
+							//						private Socket currClient;
+							//
+							//						public void setCurrSocket(Socket currClient){
+							//							this.currClient = currClient;
+							//						}
+							//
+							//						@Override
+							//						public void run(){
+							try{
+								ch.handleClient(currClient.getInputStream(), currClient.getOutputStream());
+							}catch(Exception e){
+								System.err.println("Error! " + e.getMessage());
+							}
+
+
+						}catch(Exception e){
+							e.printStackTrace();
+						}
+					}
+					//											}
+					//					SocketThread clientThread = new SocketThread();
+					//					clientThread.setCurrSocket(currClient);
+					//					clientThread.start();
+					//				new Thread(new Runnable() {
+					//					
+					//					
+					//					
+					//					@Override
+					//					public void run(){
+					//						try{
+					//							ch.handleClient(currClient.getInputStream(), currClient.getOutputStream());
+					//						}catch(Exception e){
+					//							System.err.println("Error! " + e.getMessage());;
+					//						}
+					//
+					//
+					//					}
+					//				}).start();
+					//				clientThread.start();
+
+					//			}catch(SocketTimeoutException e){
+					//				System.err.println("Error! " + e.getMessage());
+					//			}
+
+				}while(!stop);
+			}
+		};
+		ServerThread t = new ServerThread();
+		t.setSerever(myServer);
+		t.start();
+		//		closeClient();
+		//		server.close();
 	}
 
 	public void closeServer() throws Exception{
 		this.stop = true;
+		closeClient();
+		myServer.close();
+
 	}
 
 	public Socket getRunningSocket(){
@@ -89,10 +117,11 @@ public class MyServer{
 	}
 
 	public void closeClient() throws IOException{
+		
 		currClient.getInputStream().close();
 		currClient.getOutputStream().close();
 		currClient.close();
-//		numOfClients = 0;
+		//		numOfClients = 0;
 	}
 
 }

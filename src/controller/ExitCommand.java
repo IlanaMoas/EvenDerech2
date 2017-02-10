@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 //import controller.Receiver.CommandType;
 
-public class ExitCommand implements Command{
+public class ExitCommand extends Command{
 
 private CommandState state = CommandState.WAITING;
 	
@@ -28,5 +28,6 @@ private CommandState state = CommandState.WAITING;
 	public CommandType getType() {
 		return CommandType.EXIT;
 	}
-
+	
+	
 }

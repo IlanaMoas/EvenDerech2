@@ -3,7 +3,7 @@ package controller;
 import java.util.LinkedList;
 
 
-public class LoadLevelCommand implements Command{
+public class LoadLevelCommand extends Command{
 
 	private CommandState state = CommandState.WAITING;
 	private String fileName;
@@ -30,4 +30,5 @@ public class LoadLevelCommand implements Command{
 	public CommandType getType() {
 		return CommandType.LOAD;
 	}
+	
 }

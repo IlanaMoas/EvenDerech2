@@ -1,5 +1,6 @@
 package model.data;
 
+import javafx.scene.image.Image;
 
 public class Wall implements Element{
 
@@ -11,6 +12,7 @@ public class Wall implements Element{
 	private int row;
 	private String id;
 	private final char symbolId = '#';
+	Image wallImg = new Image("/resources/Wall.jpeg");
 	
 	public Wall(){}
 	
@@ -46,5 +48,10 @@ public class Wall implements Element{
 	@Override
 	public String toString(){
 		return String.format("[Wall: id='%s', col=%d, row=%d, symbol='%s']", id, col, row, symbolId);
+	}
+
+	@Override
+	public Image getImage() {
+		return wallImg;
 	}
 }

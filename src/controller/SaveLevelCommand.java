@@ -5,7 +5,7 @@ import java.util.LinkedList;
 //import controller.Command.CommandType;
 
 
-public class SaveLevelCommand implements Command{
+public class SaveLevelCommand extends Command{
 
 	private CommandState state = CommandState.WAITING;
 	private String fileName;
@@ -34,5 +34,5 @@ public class SaveLevelCommand implements Command{
 	public CommandType getType() {
 		return CommandType.SAVE;
 	}
-
+	
 }

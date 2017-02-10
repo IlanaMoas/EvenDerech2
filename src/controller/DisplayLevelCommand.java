@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 
 
-public class DisplayLevelCommand implements Command{
+public class DisplayLevelCommand extends Command{
 
 	private CommandState state = CommandState.WAITING;
 	
@@ -31,9 +31,6 @@ public class DisplayLevelCommand implements Command{
 		return CommandType.DISPLAY;
 	}
 
-
-
-
-
+	
 
 }

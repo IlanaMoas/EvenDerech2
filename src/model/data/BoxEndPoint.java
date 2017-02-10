@@ -1,5 +1,6 @@
 package model.data;
 
+import javafx.scene.image.Image;
 
 public class BoxEndPoint implements Element{
 
@@ -11,6 +12,7 @@ public class BoxEndPoint implements Element{
 	private int row;
 	private String id;
 	private final char symbolId = 'o';
+	private Image destImg = new Image("/resources/BoxEndPoint.jpeg");
 	//	private boolean isOccupied;
 
 	public BoxEndPoint(){}
@@ -47,5 +49,10 @@ public class BoxEndPoint implements Element{
 	@Override
 	public String toString(){
 		return String.format("[BoxEndPoint: id='%s', col=%d, row=%d, symbol='%s']", id, col, row, symbolId);
+	}
+
+	@Override
+	public Image getImage() {
+		return destImg;
 	}
 }
